@@ -1,5 +1,11 @@
 # Enhanced Interactive Feedback MCP Server
 
+A dynamic MCP server management service that creates, runs, and manages Model Context Protocol (MCP) servers dynamically. This service itself functions as an MCP server and launches/manages other MCP servers as child processes, enabling a flexible MCP ecosystem.
+
+<a href="https://glama.ai/mcp/servers/@rickcen01/mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@rickcen01/mcp/badge" alt="Enhanced Interactive Feedback Server MCP server" />
+</a>
+
 ## 🚀 Features
 
 ### 原有功能增强
