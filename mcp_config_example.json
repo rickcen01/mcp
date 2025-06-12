@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "enhanced-interactive-feedback-mcp": {
+      "command": "bash",
+      "args": [
+        "-c",
+        "./start_server.sh"
+      ],
+      "timeout": 600,
+      "autoApprove": [
+        "interactive_feedback",
+        "get_feedback_analytics", 
+        "create_feedback_template",
+        "execute_with_feedback"
+      ]
+    }
+  }
+} 

@@ -1,0 +1,602 @@
+# pyproject.toml
+[project]
+name = "enhanced-interactive-feedback-mcp"
+version = "2.0.0"
+description = "Enhanced Interactive User Feedback MCP Server with AI-powered analytics"
+authors = [
+    {name = "Enhanced MCP Team", email = "team@enhanced-mcp.com"}
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "fastmcp>=0.2.0",
+    "PyYAML>=6.0",
+    "sqlite3",
+    "dataclasses-json>=0.6.0",
+    "typing-extensions>=4.0.0"
+]
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+gui = [
+    "PyQt6>=6.0.0",
+    "matplotlib>=3.5.0",
+    "plotly>=5.0.0"
+]
+web = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "websockets>=11.0"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+enhanced-feedback-mcp = "enhanced_feedback_mcp.server:main"
+
+---
+# enhanced_feedback_config.yaml
+# Enhanced Interactive Feedback MCP Configuration
+
+server:
+  name: "enhanced-interactive-feedback-mcp"
+  version: "2.0.0"
+  description: "Enhanced Interactive User Feedback MCP Server"
+  
+  # 服务器设置
+  host: "localhost"
+  port: 3001
+  timeout: 600
+  max_concurrent_feedbacks: 10
+  
+  # 数据存储
+  data_directory: "~/.enhanced_feedback_mcp"
+  database_file: "feedback.db"
+  backup_enabled: true
+  backup_interval_hours: 24
+
+# 语言设置
+language:
+  default: "en"
+  supported: ["en", "zh", "es", "fr", "de", "ja"]
+  auto_detect: true
+
+# 反馈类型配置
+feedback_types:
+  question:
+    icon: "❓"
+    default_timeout: 300
+    require_response: true
+    
+  confirmation: 
+    icon: "✅"
+    default_timeout: 60
+    require_response: true
+    
+  selection:
+    icon: "📋" 
+    default_timeout: 120
+    require_response: true
+    
+  code_review:
+    icon: "🔍"
+    default_timeout: 600
+    require_response: true
+    auto_analyze: true
+    
+  suggestion:
+    icon: "💡"
+    default_timeout: 180
+    require_response: false
+    
+  error_report:
+    icon: "⚠️"
+    default_timeout: 300
+    require_response: true
+    priority: "high"
+
+# 优先级设置
+priorities:
+  low:
+    color: "#28a745"
+    notification: false
+    
+  medium:
+    color: "#ffc107" 
+    notification: true
+    
+  high:
+    color: "#fd7e14"
+    notification: true
+    sound: true
+    
+  urgent:
+    color: "#dc3545"
+    notification: true
+    sound: true
+
+# 分析引擎设置
+analytics:
+  enabled: true
+  retention_days: 365
+  pattern_analysis_days: 30
+  auto_suggestions: true
+  
+  # 智能建议阈值
+  suggestion_thresholds:
+    error_rate: 0.3
+    response_time_slow: 60
+    response_time_fast: 5
+    pattern_confidence: 0.7
+
+# 团队协作功能
+collaboration:
+  enabled: true
+  max_team_members: 10
+  role_based_access: true
+  
+  roles:
+    admin:
+      permissions: ["read", "write", "delete", "manage_users", "analytics"]
+    developer:
+      permissions: ["read", "write", "analytics"]
+    reviewer:
+      permissions: ["read", "write"]
+    observer:
+      permissions: ["read"]
+
+# 通知设置
+notifications:
+  enabled: true
+  channels: ["console", "file", "webhook"]
+  
+  webhook:
+    url: ""
+    headers: {}
+    retry_attempts: 3
+    
+  file:
+    log_file: "feedback_notifications.log"
+    max_size_mb: 10
+    backup_count: 5
+
+# 模板系统
+templates:
+  directory: "templates"
+  custom_enabled: true
+  
+  # 内置模板
+  builtin:
+    code_review:
+      en: "Please review the following code changes:\n{changes}\n\nWhat are your thoughts?"
+      zh: "请审查以下代码更改：\n{changes}\n\n您有什么想法？"
+      
+    confirmation:
+      en: "I'm about to {action}. Should I proceed?"
+      zh: "我即将{action}。是否继续？"
+      
+    error_handling:
+      en: "An error occurred: {error}\n\nHow would you like me to handle this?"
+      zh: "发生错误：{error}\n\n您希望我如何处理？"
+      
+    suggestion:
+      en: "I have a suggestion: {suggestion}\n\nWhat do you think?"
+      zh: "我有一个建议：{suggestion}\n\n您觉得怎么样？"
+
+# 性能监控
+monitoring:
+  enabled: true
+  metrics_collection: true
+  performance_tracking: true
+  
+  # 监控指标
+  metrics:
+    - "response_time"
+    - "feedback_frequency"
+    - "error_rate"
+    - "user_satisfaction"
+    - "pattern_accuracy"
+
+# 插件系统
+plugins:
+  enabled: true
+  directory: "plugins"
+  auto_load: true
+  
+  # 插件配置
+  available:
+    slack_integration:
+      enabled: false
+      webhook_url: ""
+      
+    discord_integration:
+      enabled: false
+      bot_token: ""
+      channel_id: ""
+      
+    email_notifications:
+      enabled: false
+      smtp_server: ""
+      smtp_port: 587
+      username: ""
+      password: ""
+      
+    jira_integration:
+      enabled: false
+      server_url: ""
+      username: ""
+      api_token: ""
+
+# 安全设置
+security:
+  encrypt_database: false
+  session_timeout: 3600
+  max_failed_attempts: 5
+  lockout_duration: 300
+  
+  # API安全
+  api_key_required: false
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+
+# 开发者设置
+development:
+  debug_mode: false
+  verbose_logging: false
+  test_mode: false
+  mock_responses: false
+
+---
+# install.sh - 安装脚本
+#!/bin/bash
+
+echo "🚀 Enhanced Interactive Feedback MCP Server Installation"
+echo "======================================================"
+
+# 检查Python版本
+python_version=$(python3 --version 2>&1 | grep -Po '(?<=Python )[0-9]+\.[0-9]+')
+required_version="3.11"
+
+if ! python3 -c "import sys; exit(0 if sys.version_info >= (3, 11) else 1)" 2>/dev/null; then
+    echo "❌ Error: Python 3.11+ is required. Current version: $python_version"
+    exit 1
+fi
+
+echo "✅ Python version check passed: $python_version"
+
+# 检查uv包管理器
+if ! command -v uv &> /dev/null; then
+    echo "📦 Installing uv package manager..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    source $HOME/.cargo/env
+fi
+
+echo "✅ uv package manager ready"
+
+# 创建项目目录
+project_dir="$HOME/.local/share/enhanced-feedback-mcp"
+mkdir -p "$project_dir"
+cd "$project_dir"
+
+echo "📁 Project directory created: $project_dir"
+
+# 创建虚拟环境和安装依赖
+echo "📦 Setting up virtual environment and dependencies..."
+uv venv venv
+source venv/bin/activate
+
+# 安装基础依赖
+uv pip install mcp fastmcp PyYAML
+
+# 创建配置文件
+echo "⚙️ Creating configuration files..."
+cat > enhanced_feedback_config.yaml << 'EOF'
+server:
+  name: "enhanced-interactive-feedback-mcp"
+  version: "2.0.0"
+  timeout: 600
+  
+language:
+  default: "en"
+  supported: ["en", "zh"]
+  
+analytics:
+  enabled: true
+  retention_days: 365
+  
+collaboration:
+  enabled: true
+  
+notifications:
+  enabled: true
+  channels: ["console"]
+  
+templates:
+  directory: "templates"
+  custom_enabled: true
+EOF
+
+# 创建启动脚本
+echo "🔧 Creating startup script..."
+cat > start_server.sh << 'EOF'
+#!/bin/bash
+cd "$HOME/.local/share/enhanced-feedback-mcp"
+source venv/bin/activate
+python server.py "$@"
+EOF
+
+chmod +x start_server.sh
+
+# 创建MCP配置示例
+echo "📝 Creating MCP configuration example..."
+cat > mcp_config_example.json << 'EOF'
+{
+  "mcpServers": {
+    "enhanced-interactive-feedback-mcp": {
+      "command": "bash",
+      "args": [
+        "-c",
+        "cd $HOME/.local/share/enhanced-feedback-mcp && source venv/bin/activate && python server.py"
+      ],
+      "timeout": 600,
+      "autoApprove": [
+        "interactive_feedback",
+        "get_feedback_analytics", 
+        "create_feedback_template",
+        "execute_with_feedback"
+      ]
+    }
+  }
+}
+EOF
+
+echo ""
+echo "🎉 Installation completed successfully!"
+echo ""
+echo "📋 Next steps:"
+echo "1. Copy the server.py file to: $project_dir/server.py"
+echo "2. Start the server: $project_dir/start_server.sh"
+echo "3. Configure your AI assistant to use the MCP server"
+echo "4. Example MCP configuration saved to: $project_dir/mcp_config_example.json"
+echo ""
+echo "🔧 Configuration file location: $project_dir/enhanced_feedback_config.yaml"
+echo "📊 Data will be stored in: $HOME/.enhanced_feedback_mcp/"
+echo ""
+echo "🌐 For web interface (optional): uv pip install fastapi uvicorn"
+echo "🖥️  For GUI interface (optional): uv pip install PyQt6"
+
+---
+# requirements.txt
+mcp>=1.0.0
+fastmcp>=0.2.0
+PyYAML>=6.0.0
+typing-extensions>=4.0.0
+
+# Optional dependencies
+PyQt6>=6.0.0  # for GUI
+fastapi>=0.100.0  # for web interface
+uvicorn>=0.20.0  # for web server
+matplotlib>=3.5.0  # for analytics charts
+plotly>=5.0.0  # for interactive charts
+websockets>=11.0  # for real-time updates
+
+---
+# README.md
+# Enhanced Interactive Feedback MCP Server
+
+## 🚀 Features
+
+### 原有功能增强
+- ✅ 交互式反馈机制（支持问题、确认、选择等多种类型）
+- ✅ 项目级配置管理
+- ✅ 跨平台支持（Windows、macOS、Linux）
+- ✅ 多AI工具兼容（Cursor、Cline、Windsurf等）
+
+### 🆕 新增功能
+
+#### 1. 智能分析引擎
+- 📊 反馈模式分析和可视化
+- 🤖 基于历史数据的智能建议
+- 📈 性能监控和响应时间分析
+- 🎯 个性化反馈优化
+
+#### 2. 多语言支持
+- 🌐 支持中文、英文等多种语言
+- 🔄 自动语言检测
+- 📝 本地化反馈模板
+
+#### 3. 团队协作
+- 👥 多用户支持
+- 🔐 基于角色的访问控制
+- 📝 团队反馈历史共享
+- 💬 协作式代码审查
+
+#### 4. 反馈模板系统
+- 📋 内置常用模板
+- ✏️ 自定义模板创建
+- 🔧 模板参数化支持
+- 📚 模板库管理
+
+#### 5. 增强的反馈类型
+- ❓ 问题询问
+- ✅ 操作确认
+- 📋 选项选择
+- 🔍 代码审查
+- 💡 建议提供
+- ⚠️ 错误报告
+
+#### 6. 通知和提醒
+- 🔔 多渠道通知（控制台、文件、Webhook）
+- ⏰ 优先级管理
+- 🎵 声音提醒
+- 📱 移动端推送（计划中）
+
+#### 7. 插件系统
+- 🔌 Slack集成
+- 💬 Discord集成
+- 📧 邮件通知
+- 🎫 Jira集成
+
+## 📦 Installation
+
+### 快速安装
+```bash
+# 下载安装脚本
+curl -LsSf https://github.com/your-repo/enhanced-feedback-mcp/install.sh | sh
+
+# 或手动安装
+git clone https://github.com/your-repo/enhanced-feedback-mcp.git
+cd enhanced-feedback-mcp
+chmod +x install.sh
+./install.sh
+```
+
+### 手动安装
+```bash
+# 1. 克隆项目
+git clone https://github.com/your-repo/enhanced-feedback-mcp.git
+cd enhanced-feedback-mcp
+
+# 2. 安装依赖
+uv sync
+
+# 3. 运行服务器
+uv run server.py
+```
+
+## ⚙️ Configuration
+
+### MCP配置示例（Cursor）
+```json
+{
+  "mcpServers": {
+    "enhanced-interactive-feedback-mcp": {
+      "command": "uv",
+      "args": [
+        "--directory", "/path/to/enhanced-feedback-mcp",
+        "run", "server.py"
+      ],
+      "timeout": 600,
+      "autoApprove": [
+        "interactive_feedback",
+        "get_feedback_analytics",
+        "create_feedback_template",
+        "execute_with_feedback"
+      ]
+    }
+  }
+}
+```
+
+### 自定义提示词
+```
+在完成任何任务之前，请务必调用 interactive_feedback MCP工具来获取用户反馈。
+使用中文进行交互，并根据任务类型选择合适的 feedback_type。
+如果反馈为空，可以结束请求，但不要循环调用。
+```
+
+## 🛠️ Usage Examples
+
+### 基础反馈
+```python
+# AI助手调用示例
+interactive_feedback(
+    project_directory="/path/to/project",
+    message="我已经实现了用户登录功能，需要您确认是否符合要求？",
+    feedback_type="confirmation",
+    language="zh",
+    priority="medium"
+)
+```
+
+### 代码审查
+```python
+interactive_feedback(
+    project_directory="/path/to/project", 
+    message="请审查这个新增的用户认证模块",
+    feedback_type="code_review",
+    language="zh",
+    tags=["authentication", "security"],
+    priority="high"
+)
+```
+
+### 错误处理
+```python
+execute_with_feedback(
+    command="npm test",
+    project_directory="/path/to/project",
+    require_confirmation=True,
+    language="zh"
+)
+```
+
+### 获取分析报告
+```python
+get_feedback_analytics(
+    project_directory="/path/to/project",
+    days=30
+)
+```
+
+## 📊 Analytics Dashboard
+
+增强版提供详细的分析功能：
+
+- 📈 反馈频率趋势
+- ⏱️ 平均响应时间
+- 🏷️ 常用标签分析
+- 🎯 智能建议准确性
+- 👥 团队协作统计
+
+## 🔧 Advanced Features
+
+### 自定义模板
+```yaml
+# templates/custom_template.yaml
+type: "custom"
+content:
+  en: "Custom template: {message}"
+  zh: "自定义模板：{message}"
+```
+
+### 插件开发
+```python
+# plugins/custom_plugin.py
+class CustomPlugin:
+    def on_feedback_received(self, feedback):
+        # 自定义处理逻辑
+        pass
+```
+
+### Webhook集成
+```yaml
+# 配置Webhook通知
+notifications:
+  webhook:
+    url: "https://your-webhook.com/feedback"
+    headers:
+      Authorization: "Bearer your-token"
+```
+
+## 🤝 Contributing
+
+欢迎贡献代码和建议！
+
+1. Fork 项目
+2. 创建功能分支
+3. 提交更改
+4. 创建 Pull Request
+
+## 📄 License
+
+MIT License - 详见 LICENSE 文件
+
+## 🙏 Acknowledgments
+
+基于原始项目 [interactive-feedback-mcp](https://github.com/noopstudios/interactive-feedback-mcp) 
+由 [@fabiomlferreira](https://x.com/fabiomlferreira) 开发
+
+增强功能由 AI 辅助开发完成

@@ -1,0 +1,210 @@
+# Enhanced Interactive Feedback MCP Configuration
+
+server:
+  name: "enhanced-interactive-feedback-mcp"
+  version: "2.0.0"
+  description: "Enhanced Interactive User Feedback MCP Server"
+  
+  # 服务器设置
+  host: "localhost"
+  port: 3001
+  timeout: 600
+  max_concurrent_feedbacks: 10
+  
+  # 数据存储
+  data_directory: "~/.enhanced_feedback_mcp"
+  database_file: "feedback.db"
+  backup_enabled: true
+  backup_interval_hours: 24
+
+# 语言设置
+language:
+  default: "en"
+  supported: ["en", "zh", "es", "fr", "de", "ja"]
+  auto_detect: true
+
+# 反馈类型配置
+feedback_types:
+  question:
+    icon: "❓"
+    default_timeout: 300
+    require_response: true
+    
+  confirmation: 
+    icon: "✅"
+    default_timeout: 60
+    require_response: true
+    
+  selection:
+    icon: "📋" 
+    default_timeout: 120
+    require_response: true
+    
+  code_review:
+    icon: "🔍"
+    default_timeout: 600
+    require_response: true
+    auto_analyze: true
+    
+  suggestion:
+    icon: "💡"
+    default_timeout: 180
+    require_response: false
+    
+  error_report:
+    icon: "⚠️"
+    default_timeout: 300
+    require_response: true
+    priority: "high"
+
+# 优先级设置
+priorities:
+  low:
+    color: "#28a745"
+    notification: false
+    
+  medium:
+    color: "#ffc107" 
+    notification: true
+    
+  high:
+    color: "#fd7e14"
+    notification: true
+    sound: true
+    
+  urgent:
+    color: "#dc3545"
+    notification: true
+    sound: true
+
+# 分析引擎设置
+analytics:
+  enabled: true
+  retention_days: 365
+  pattern_analysis_days: 30
+  auto_suggestions: true
+  
+  # 智能建议阈值
+  suggestion_thresholds:
+    error_rate: 0.3
+    response_time_slow: 60
+    response_time_fast: 5
+    pattern_confidence: 0.7
+
+# 团队协作功能
+collaboration:
+  enabled: true
+  max_team_members: 10
+  role_based_access: true
+  
+  roles:
+    admin:
+      permissions: ["read", "write", "delete", "manage_users", "analytics"]
+    developer:
+      permissions: ["read", "write", "analytics"]
+    reviewer:
+      permissions: ["read", "write"]
+    observer:
+      permissions: ["read"]
+
+# 通知设置
+notifications:
+  enabled: true
+  channels: ["console", "file", "webhook"]
+  
+  webhook:
+    url: ""
+    headers: {}
+    retry_attempts: 3
+    
+  file:
+    log_file: "feedback_notifications.log"
+    max_size_mb: 10
+    backup_count: 5
+
+# 模板系统
+templates:
+  directory: "templates"
+  custom_enabled: true
+  
+  # 内置模板
+  builtin:
+    code_review:
+      en: "Please review the following code changes:\n{changes}\n\nWhat are your thoughts?"
+      zh: "请审查以下代码更改：\n{changes}\n\n您有什么想法？"
+      
+    confirmation:
+      en: "I'm about to {action}. Should I proceed?"
+      zh: "我即将{action}。是否继续？"
+      
+    error_handling:
+      en: "An error occurred: {error}\n\nHow would you like me to handle this?"
+      zh: "发生错误：{error}\n\n您希望我如何处理？"
+      
+    suggestion:
+      en: "I have a suggestion: {suggestion}\n\nWhat do you think?"
+      zh: "我有一个建议：{suggestion}\n\n您觉得怎么样？"
+
+# 性能监控
+monitoring:
+  enabled: true
+  metrics_collection: true
+  performance_tracking: true
+  
+  # 监控指标
+  metrics:
+    - "response_time"
+    - "feedback_frequency"
+    - "error_rate"
+    - "user_satisfaction"
+    - "pattern_accuracy"
+
+# 插件系统
+plugins:
+  enabled: true
+  directory: "plugins"
+  auto_load: true
+  
+  # 插件配置
+  available:
+    slack_integration:
+      enabled: false
+      webhook_url: ""
+      
+    discord_integration:
+      enabled: false
+      bot_token: ""
+      channel_id: ""
+      
+    email_notifications:
+      enabled: false
+      smtp_server: ""
+      smtp_port: 587
+      username: ""
+      password: ""
+      
+    jira_integration:
+      enabled: false
+      server_url: ""
+      username: ""
+      api_token: ""
+
+# 安全设置
+security:
+  encrypt_database: false
+  session_timeout: 3600
+  max_failed_attempts: 5
+  lockout_duration: 300
+  
+  # API安全
+  api_key_required: false
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+
+# 开发者设置
+development:
+  debug_mode: false
+  verbose_logging: false
+  test_mode: false
+  mock_responses: false 

@@ -1,0 +1,3 @@
+INFO:enhanced-feedback-mcp:Enhanced Feedback MCP Server initialized
+INFO:enhanced-feedback-mcp:启动增强型交互式反馈 MCP 服务器...
+ERROR:enhanced-feedback-mcp:服务器启动失败: FastMCP.run() got an unexpected keyword argument 'host'

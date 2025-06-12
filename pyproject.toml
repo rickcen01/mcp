@@ -1,0 +1,37 @@
+[project]
+name = "enhanced-interactive-feedback-mcp"
+version = "2.0.0"
+description = "Enhanced Interactive User Feedback MCP Server with AI-powered analytics"
+authors = [
+    {name = "Enhanced MCP Team", email = "team@enhanced-mcp.com"}
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "fastmcp>=0.2.0",
+    "PyYAML>=6.0",
+    "dataclasses-json>=0.6.0",
+    "typing-extensions>=4.0.0"
+]
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+gui = [
+    "PyQt6>=6.0.0",
+    "matplotlib>=3.5.0",
+    "plotly>=5.0.0"
+]
+web = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "websockets>=11.0"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+enhanced-feedback-mcp = "enhanced_feedback_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."] 

@@ -1,0 +1,29 @@
+type: "custom"
+description: "A custom template example for Enhanced Interactive Feedback MCP"
+version: "1.0.0"
+author: "Enhanced MCP Team"
+
+content:
+  en: "Custom template: {message}\n\nPlease provide your feedback on this."
+  zh: "自定义模板：{message}\n\n请提供您的反馈意见。"
+
+parameters:
+  - name: "message"
+    description: "The main message to display to the user"
+    required: true
+    default: ""
+    
+  - name: "project"
+    description: "The current project name"
+    required: false
+    default: "current project"
+
+styles:
+  background: "#f5f5f5"
+  text_color: "#333333"
+  highlight_color: "#4a86e8"
+
+settings:
+  timeout: 300
+  require_response: true
+  priority: "medium" 

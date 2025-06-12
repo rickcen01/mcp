@@ -1,0 +1,15 @@
+# requirements.txt
+mcp>=1.0.0
+fastmcp>=0.2.0
+PyYAML>=6.0.0
+typing-extensions>=4.0.0
+sqlite3
+pyside6>=6.0.0
+
+# Optional dependencies
+PyQt6>=6.0.0  # for GUI
+fastapi>=0.100.0  # for web interface
+uvicorn>=0.20.0  # for web server
+matplotlib>=3.5.0  # for analytics charts
+plotly>=5.0.0  # for interactive charts
+websockets>=11.0  # for real-time updates
